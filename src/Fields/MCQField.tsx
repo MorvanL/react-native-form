@@ -44,16 +44,18 @@ function MCQField(props: MCQFieldProps) {
     const toggleFold = () => setIsFolded((prevIsFolded) => !prevIsFolded);
 
     const activeColor = React.useMemo(() => (props.colors && props.colors.active) || baseColors.main, [props.colors]);
-    const inactiveColor = React.useMemo(() => (props.colors && props.colors.inactive) || baseColors.inactive, [
-        props.colors,
-    ]);
+    const inactiveColor = React.useMemo(
+        () => (props.colors && props.colors.inactive) || baseColors.inactive,
+        [props.colors]
+    );
     const activeBackgroundColor = React.useMemo(
         () => (props.colors && props.colors.activeBackground) || baseColors.background,
         [props.colors]
     );
-    const inactiveBackgroundColor = React.useMemo(() => (props.colors && props.colors.inactiveBackground) || '#fff', [
-        props.colors,
-    ]);
+    const inactiveBackgroundColor = React.useMemo(
+        () => (props.colors && props.colors.inactiveBackground) || '#fff',
+        [props.colors]
+    );
 
     let openFoldableIcon = props.activeOpenFoldableIcon;
     if (props.inactiveOpenFoldableIcon && selectedAnswerQty === 0) {
