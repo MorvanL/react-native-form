@@ -14,8 +14,6 @@ module.exports = {
         'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier',
-        'prettier/@typescript-eslint',
-        'prettier/react',
     ],
     rules: {
         'comma-dangle': ['warn', 'only-multiline'],

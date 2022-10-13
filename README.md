@@ -23,7 +23,11 @@ Optimized field components with nice design for react-native forms
 
 Install the library using Yarn:
 ```bash
+// add library
 yarn add @mobeye/react-native-form-fields
+
+// add peer dependencies
+yarn add @react-native-community/datetimepicker
 ```
 
 ## General Usage
