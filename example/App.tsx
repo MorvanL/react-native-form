@@ -49,8 +49,7 @@ interface State {
  * */
 const descriptionPictures = [
     {
-        src:
-            'https://api.mobeye-app.com/media/campaign/9281/form_images/718503f05bfa43e9d186dddc9e61be002ea4f9aa_320.jpeg',
+        src: 'https://api.mobeye-app.com/media/campaign/9281/form_images/718503f05bfa43e9d186dddc9e61be002ea4f9aa_320.jpeg',
     },
 ];
 
