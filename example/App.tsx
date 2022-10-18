@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text } from 'react-native';
-import { MCQField, MultiLineTextField, SingleLineTextField, DatePickerField } from 'react-native-form-fields';
+import { MCQField, MultiLineTextField, SingleLineTextField, DatePickerField } from '@mobeye/react-native-form-fields';
 
 const styles = StyleSheet.create({
     container: {

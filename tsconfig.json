@@ -58,7 +58,12 @@
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     "resolveJsonModule": true,                /* Allow import of json files */
     "declaration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "@mobeye/react-native-form-fields": ["./src/index"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "build"]
