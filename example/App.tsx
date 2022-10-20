@@ -1,6 +1,13 @@
 import React, { useReducer } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Text } from 'react-native';
-import { MCQField, MultiLineTextField, SingleLineTextField, DatePickerField } from 'react-native-form-fields';
+import { StyleSheet, ScrollView, SafeAreaView, Text, Alert, Button } from 'react-native';
+import {
+    MCQField,
+    MultiLineTextField,
+    SingleLineTextField,
+    DatePickerField,
+    PhotoField,
+    Description,
+} from '@mobeye/react-native-form-fields';
 
 const styles = StyleSheet.create({
     container: {
@@ -29,6 +36,7 @@ const styles = StyleSheet.create({
         shadowRadius: 14,
         elevation: 5,
     },
+    descriptionPicturesContainer: { marginTop: 10 },
 });
 
 interface State {
@@ -49,10 +57,26 @@ interface State {
  * */
 const descriptionPictures = [
     {
-        src:
-            'https://api.mobeye-app.com/media/campaign/9281/form_images/718503f05bfa43e9d186dddc9e61be002ea4f9aa_320.jpeg',
+        src: 'https://via.placeholder.com/400/0000FF/808080',
     },
 ];
+
+const picturesUri = [
+    'https://via.placeholder.com/400/0000FF/808080',
+    'https://via.placeholder.com/400/FF0000/FFFFFF',
+    'https://via.placeholder.com/400/FFFF00/000000',
+];
+
+const onPressPicture = (index: number) => Alert.alert('click', 'You clicked on the picture' + index);
+
+const openCameraButton = (
+    <Button title="Open camera button" color="#f194ff" onPress={() => Alert.alert('Add you camera')} />
+);
+
+const minDate = new Date('10/10/2022');
+const maxDate = new Date('11/11/2022');
+
+const mcqPossibleAnswers = ['a', 'b', 'c', 'd'];
 
 const App = (): React.ReactElement => {
     const reducer = (state: State, action: Partial<State>): State => ({ ...state, ...action });
@@ -84,6 +108,15 @@ const App = (): React.ReactElement => {
         () => dispatch({ singleLineTextField3Focus: !state.singleLineTextField3Focus }),
         [state.singleLineTextField3Focus]
     );
+    const containerStyleSLTF3 = React.useMemo(
+        () => [styles.fieldContainer, { backgroundColor: state.singleLineTextField3Focus ? '#212223' : '#fff' }],
+        [state.singleLineTextField3Focus]
+    );
+    const inputStyleSLTF3 = React.useMemo(() => {
+        return {
+            color: state.singleLineTextField3Focus ? '#fff' : '#000',
+        };
+    }, [state.singleLineTextField3Focus]);
     const onChangeTextMLTF1 = React.useCallback((text: string) => dispatch({ multiLineTextField1: text }), []);
     const onChangeTextMLTF2 = React.useCallback((text: string) => dispatch({ multiLineTextField2: text }), []);
     const onChangeDatePickerField = React.useCallback(
@@ -120,7 +153,10 @@ const App = (): React.ReactElement => {
         [state.mcqFieldSelectedAnswers2]
     );
 
-    const foldableLabel = (selectedAnswersQty: number) => `${selectedAnswersQty} answers selected`;
+    const foldableLabel = React.useCallback(
+        (selectedAnswersQty: number) => `${selectedAnswersQty} answers selected`,
+        []
+    );
 
     /*
      * For the same reason you should use memoized values when you can
@@ -138,6 +174,13 @@ const App = (): React.ReactElement => {
                 contentContainerStyle={styles.scrollViewContentContainer}
             >
                 <Text style={styles.title}>REACT NATIVE FORM FIELDS</Text>
+
+                {/* Description component */}
+                <Description
+                    descriptionText="A simple example of Description component"
+                    descriptionPictures={descriptionPictures}
+                    descriptionContainerStyle={styles.fieldContainer}
+                />
 
                 {/* SingleLineTextField 1 */}
                 <SingleLineTextField
@@ -163,11 +206,8 @@ const App = (): React.ReactElement => {
                     onChangeText={onChangeTextSLTF3}
                     onFocus={switchFocusSLTF3}
                     onBlur={switchFocusSLTF3}
-                    containerStyle={[
-                        styles.fieldContainer,
-                        { backgroundColor: state.singleLineTextField3Focus ? '#212223' : '#fff' },
-                    ]}
-                    inputStyle={{ color: state.singleLineTextField3Focus ? '#fff' : '#000' }}
+                    containerStyle={containerStyleSLTF3}
+                    inputStyle={inputStyleSLTF3}
                 />
 
                 {/* MultiLineTextField 1 */}
@@ -191,7 +231,7 @@ const App = (): React.ReactElement => {
                     value={state.multiLineTextField2}
                     onChangeText={onChangeTextMLTF2}
                     containerStyle={styles.fieldContainer}
-                    descriptionPicturesContainerStyle={{ marginTop: 10 }}
+                    descriptionPicturesContainerStyle={styles.descriptionPicturesContainer}
                 />
 
                 {/* DatePickerField */}
@@ -199,14 +239,16 @@ const App = (): React.ReactElement => {
                     label="I am a DatePickerField"
                     value={state.datePickerField}
                     onChange={onChangeDatePickerField}
-                    descriptionText={'This showcases an example of a field with a date picker. '}
+                    descriptionText={'DatePickerField between 2022/10/10 - 2022/11/11'}
                     containerStyle={styles.fieldContainer}
+                    minimumDate={minDate}
+                    maximumDate={maxDate}
                 />
 
                 {/* MCQField */}
                 <MCQField
                     label="MCQField"
-                    possibleAnswers={['a', 'b', 'c', 'd']}
+                    possibleAnswers={mcqPossibleAnswers}
                     selectedAnswersIndices={state.mcqFieldSelectedAnswers}
                     onSelectAnswer={onSelectAnswerMCQF}
                     containerStyle={styles.fieldContainer}
@@ -215,12 +257,22 @@ const App = (): React.ReactElement => {
                 {/* MCQField 2 */}
                 <MCQField
                     label="MCQField foldable"
-                    possibleAnswers={['a', 'b', 'c', 'd']}
+                    possibleAnswers={mcqPossibleAnswers}
                     selectedAnswersIndices={state.mcqFieldSelectedAnswers2}
                     onSelectAnswer={onSelectAnswerMCQF2}
                     foldable={true}
-                    openFoldableLabel={foldableLabel}
-                    closeFoldableLabel={foldableLabel}
+                    openFoldableLabel={foldableLabel(state.mcqFieldSelectedAnswers2.length)}
+                    closeFoldableLabel={foldableLabel(state.mcqFieldSelectedAnswers2.length)}
+                    containerStyle={styles.fieldContainer}
+                />
+
+                {/* PhotoField */}
+                <PhotoField
+                    label="PhotoField"
+                    descriptionText="You can click on pictures"
+                    pictureUris={picturesUri}
+                    onPressPicture={onPressPicture}
+                    openCameraButton={openCameraButton}
                     containerStyle={styles.fieldContainer}
                 />
             </ScrollView>
