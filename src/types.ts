@@ -72,6 +72,25 @@ export interface TextFieldAnimationProps extends DescriptionProps, TextFieldAnim
     disabled?: boolean;
 }
 
+/* DatePicker */
+export interface DatePickerStyles {
+    // iOS only
+    modalStyle?: StyleProp<ViewStyle>;
+    datePickerIOSContainerStyle?: StyleProp<ViewStyle>;
+    datePickerIOSHeaderStyle?: StyleProp<ViewStyle>;
+}
+export interface DatePickerProps extends DatePickerStyles {
+    isVisible: boolean;
+    value?: Date;
+    onClosePicker: (date?: Date) => void;
+    minimumDate?: Date;
+    maximumDate?: Date;
+
+    // iOS only
+    iosClearButtonText?: string;
+    iosValidateButtonText?: string;
+}
+
 /* MCQField */
 export interface MCQAnswerProps {
     text: string;
@@ -142,10 +161,6 @@ export interface MultiLineTextFieldProps extends DescriptionProps, MultiLineText
 }
 
 /* PhotoField */
-export interface ImageComponentProps {
-    thumbnailWidth?: number;
-    thumbnailHeight?: number;
-}
 export interface PhotoFieldStyles extends CommonStyles {
     imagesContainerStyle?: StyleProp<ViewStyle>;
     imageContainerStyle?: StyleProp<ViewStyle>;
@@ -207,27 +222,8 @@ export interface SingleLineTextFieldProps extends DescriptionProps, SingleLineTe
     textInputProps?: TextInputProps;
 }
 
-export interface DatePickerStyles {
-    // iOS only
-    modalStyle?: StyleProp<ViewStyle>;
-    datePickerIOSContainerStyle?: StyleProp<ViewStyle>;
-    datePickerIOSHeaderStyle?: StyleProp<ViewStyle>;
-}
-export interface DatePickerProps extends DatePickerStyles {
-    isVisible: boolean;
-    value?: Date;
-    onClosePicker: (date?: Date) => void;
-    minimumDate?: Date;
-    maximumDate?: Date;
-
-    // iOS only
-    iosClearButtonText?: string;
-    iosValidateButtonText?: string;
-}
-
 /* DatePickerField */
 export interface DatePickerFieldStyles extends CommonStyles, DatePickerStyles {
-    pickerFieldContainerStyle?: StyleProp<ViewStyle>;
     inputContainerStyle?: StyleProp<ViewStyle>;
     inputStyle?: StyleProp<TextStyle>;
     colors?: {
